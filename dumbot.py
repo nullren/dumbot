@@ -20,6 +20,7 @@ class DumBot(irc.IRCClient):
                 else:
                     self.msg(channel, self.reloadstring)
                 reload(logic)
+                print('i reloaded!')
                 return
         logic.privmsg(self, user, channel, msg)
 
