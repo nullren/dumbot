@@ -1,15 +1,22 @@
 #!/usr/bin/python2
 
+import re
+
 def privmsg(dumbot, user, channel, msg):
-    if channel == dumbot.nickname:
-        print('I was queried!')
-        if getUsername(user) == dumbot.owner:
-            if msg == 'join stapler':
-                dumbot.join('stapler')
+    if channel == dumbot.nickname: # query
+        if getUsername(user) == dumbot.owner: # query from owner
+            if msg.startswith('join ') and msg.count(' ') == 1:
+                newchannel = msg.lstrip('join ')
+                if validName(newchannel):
+                    dumbot.join(newchannel)
+            if msg.startswith('part ') and msg.count(' ') == 1:
+                oldchannel = msg.lstrip('part ')
+                if validName(oldchannel):
+                    dumbot.leave(oldchannel)
 
     if channel:
         if dumbot.nickname in msg:
-            dumbot.say(channel, 'suck me')
+            dumbot.say(channel, 'LolLeRbEArS')
 
 def created(dumbot, when):
     print('created')
@@ -95,3 +102,5 @@ def receivedMOTD(dumbot, motd):
 def getUsername(user):
     return user[:user.index('!')]
 
+def validName(name, search=re.compile(r'[^a-z0-9]').search):
+    return not bool(search(name))
