@@ -17,3 +17,7 @@ def privmsg(dumbot, user, channel, msg):
 def noticed(dumbot, user, channel, msg):
     print('NOTICED ' + channel + ' | ' + user + ' ' + msg)
 
+#### utility functions
+def getUsername(user):
+    return user[:user.index('!')]
+

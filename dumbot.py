@@ -5,6 +5,7 @@ import logic
 
 class DumBot(irc.IRCClient):
     reloadstring = 'im sorry i wasnt good enough =('
+    owner        = 'baumy'
 
     def _get_nickname(self):
         return self.factory.nickname
@@ -18,15 +19,15 @@ class DumBot(irc.IRCClient):
 
     def privmsg(self, user, channel, msg):
         print('PRIVMSG: ' + user + '::' + channel + '::' + msg)
-        if (self.nickname in msg or self.nickname == channel) and 'reload' in msg:
-            if self.nickname == channel: # query
-                username = user[:user.index('!')]
-                print('sending message to ' + username)
-                self.msg(username, self.reloadstring)
-            else:
-                self.msg(channel, self.reloadstring)
-            reload(logic)
-            return
+        if (msg.startswith(self.nickname + ': reload') or (self.nickname == channel and msg == 'reload')):
+            username = logic.getUsername(user)
+            if username == self.owner:
+                if self.nickname == channel: # query
+                    self.msg(username, self.reloadstring)
+                else:
+                    self.msg(channel, self.reloadstring)
+                reload(logic)
+                return
         logic.privmsg(self, user, channel, msg)
 
     def noticed(self, user, channel, msg):
