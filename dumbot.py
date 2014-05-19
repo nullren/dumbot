@@ -12,7 +12,6 @@ class DumBot(irc.IRCClient):
     nickname = property(_get_nickname)
 
     def privmsg(self, user, channel, msg):
-        print('PRIVMSG: ' + user + '::' + channel + '::' + msg)
         if (msg.startswith(self.nickname + ': reload') or (self.nickname == channel and msg == 'reload')):
             username = logic.getUsername(user)
             if username == self.owner:
