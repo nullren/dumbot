@@ -6,11 +6,16 @@ import sys
 from twisted.internet import reactor, protocol
 
 class DumBotFactory(protocol.ClientFactory):
-    protocol = dumbot.DumBot
+    protocol   = dumbot.DumBot
+    ownersfile = 'owners.txt'
 
-    def __init__(self, channel, nickname='dumbbot'):
+    def __init__(self, channel, nickname='dumbot'):
         self.channel  = channel
         self.nickname = nickname
+        self.owners        = []
+        with open(self.ownersfile, 'r') as f:
+            for line in f:
+                self.owners.extend([line.rstrip('\n')])
 
     def clientConnectionLost(self, connector, reason):
         print("Lost connection (%s), reconnecting..." % (reason,))
