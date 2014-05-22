@@ -1,0 +1,8 @@
+admins: [coolguy1, coolguy2]
+bitly_key: YOUR_BITLY_API_KEY_HERE
+bitly_user: YOUR_BITLY_USER_HERE
+channels: [channel1, channel2]
+host: irc.freenode.net
+nick: dumbot
+port: 6667
+reloadstring: im sorry i wasnt good enough =(

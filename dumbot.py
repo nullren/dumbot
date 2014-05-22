@@ -4,23 +4,18 @@ from twisted.words.protocols import irc
 import logic
 
 class DumBot(irc.IRCClient):
-    def _get_nickname(self):
-        return self.factory.nickname
-    def _get_owners(self):
-        return self.factory.owners
-
-    reloadstring = 'im sorry i wasnt good enough =('
-    owners       = property(_get_owners)
-    nickname     = property(_get_nickname)
+    def _get_config(self):
+        return self.factory.config
+    config       = property(_get_config)
 
     def privmsg(self, user, channel, msg):
-        if (msg.startswith(self.nickname + ': reload') or (self.nickname == channel and msg == 'reload')):
-            username = logic.getUsername(user)
-            if username in self.owners:
-                if self.nickname == channel: # query
-                    self.msg(username, self.reloadstring)
+        if (msg == self.config['nick'] + ': reload') or (self.config['nick'] == channel and msg == 'reload'):
+            usernick = logic.getUsernick(user)
+            if usernick in self.config['admins']:
+                if self.config['nick'] == channel: # query
+                    self.msg(usernick, self.config['reloadstring'])
                 else:
-                    self.msg(channel, self.reloadstring)
+                    self.msg(channel, self.config['reloadstring'])
                 reload(logic)
                 print('i reloaded!')
                 return
