@@ -1,2 +1,4 @@
 *.pyc
 owners.txt
+config.yml
+reference/*
