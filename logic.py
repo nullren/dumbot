@@ -137,7 +137,6 @@ def removeAdmin(dumbot, admin, remover, replylocation):
                 return
         dumbot.config['admins'].remove(admin)
         dumbot.msg(replylocation, 'removed admin ' + admin)
-        # TODO dump config nicely
         with open('config.yml', 'w') as f:
             f.write(yaml.dump(dumbot.config))
 def listAdmins(dumbot, replylocation):
